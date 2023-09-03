@@ -5,7 +5,10 @@ import ru.hogwarts.school.exceptions.StudentException;
 import ru.hogwarts.school.model.Student;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class StudentServiceImpl implements StudentService {
 
@@ -44,5 +47,12 @@ public class StudentServiceImpl implements StudentService {
             throw new StudentException("Студен не найден");
         }
         return students.remove(id);
+    }
+
+    @Override
+    public List<Student> readAllStudentByAge(int age) {
+        return students.values().stream()
+                .filter(student -> student.getAge() == age)
+                .collect(Collectors.toUnmodifiableList());
     }
 }

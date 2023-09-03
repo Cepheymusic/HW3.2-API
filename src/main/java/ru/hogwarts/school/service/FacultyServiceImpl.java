@@ -5,7 +5,10 @@ import ru.hogwarts.school.exceptions.FacultyException;
 import ru.hogwarts.school.model.Faculty;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class FacultyServiceImpl implements FacultyService {
 
@@ -42,5 +45,11 @@ public class FacultyServiceImpl implements FacultyService {
             throw new FacultyException("Факультет не найден");
         }
         return faculties.remove(id);
+    }
+    @Override
+    public List<Faculty> readAllFacultiesByColor(String color) {
+        return faculties.values().stream()
+                .filter(faculty -> faculty.getColor().equals(color))
+                .collect(Collectors.toUnmodifiableList());
     }
 }
