@@ -18,7 +18,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student create(Student student) {
         if(students.containsValue(student)){
-            throw new SecurityException("Студент существует");
+            throw new StudentException("Студент существует");
         }
         student.setId(++counter);
         students.put(student.getId(), student);
