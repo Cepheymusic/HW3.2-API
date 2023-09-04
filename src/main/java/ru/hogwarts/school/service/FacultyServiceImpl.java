@@ -20,7 +20,8 @@ public class FacultyServiceImpl implements FacultyService {
             throw new FacultyException("Факультет существует");
         }
         faculty.setId(++counter);
-        return faculties.put(faculty.getId(), faculty);
+        faculties.put(faculty.getId(), faculty);
+        return faculty;
     }
 
     @Override
