@@ -1,9 +1,11 @@
 package ru.hogwarts.school.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.hogwarts.school.exceptions.FacultyException;
+import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +17,12 @@ class FacultyServiceImplTest {
     Faculty faculty2 = new Faculty(0L, "Slyseryne", "green");
     Faculty faculty3 = new Faculty(0L, "Puffendui", "gray");
     Faculty faculty4 = new Faculty(0L, "Cogtevran", "yellow");
+    List<Faculty> faculties;
 
+    @BeforeEach
+    void beforeEach() {
+        faculties = new ArrayList<>(List.of(faculty1, faculty2, faculty3, faculty4));
+    }
     @Test
     void create__facultyCreateAndReturn() {
         Faculty result = underTest.create(faculty1);
@@ -25,8 +32,8 @@ class FacultyServiceImplTest {
     @Test
     void create_facultyIsInMap_returnFacultyException() {
         underTest.create(faculty1);
-        FacultyException ex =
-                assertThrows(FacultyException.class,
+        FacultyNotFoundException ex =
+                assertThrows(FacultyNotFoundException.class,
                         () -> underTest.create(faculty1));
         assertEquals("Факультет существует", ex.getMessage());
 
@@ -42,8 +49,8 @@ class FacultyServiceImplTest {
     @Test
     void read_facultyIsNotInMap_returnedFacultyException() {
         underTest.create(faculty1);
-        FacultyException ex =
-                assertThrows(FacultyException.class,
+        FacultyNotFoundException ex =
+                assertThrows(FacultyNotFoundException.class,
                         () -> underTest.read(2L));
         assertEquals("Факультет не найден", ex.getMessage());
     }
@@ -56,8 +63,8 @@ class FacultyServiceImplTest {
     @Test
     void update_studentIsNotInMap_returnedStudentException() {
         underTest.create(faculty1);
-        FacultyException ex =
-                assertThrows(FacultyException.class,
+        FacultyNotFoundException ex =
+                assertThrows(FacultyNotFoundException.class,
                         () -> underTest.update(faculty3));
         assertEquals("Факультет не найден", ex.getMessage());
     }
@@ -70,8 +77,8 @@ class FacultyServiceImplTest {
     @Test
     void delete_facultyIsNotInMap_returnedFacultyException() {
         underTest.create(faculty1);
-        FacultyException ex =
-                assertThrows(FacultyException.class,
+        FacultyNotFoundException ex =
+                assertThrows(FacultyNotFoundException.class,
                         () -> underTest.delete(2L));
         assertEquals("Факультет не найден", ex.getMessage());
     }

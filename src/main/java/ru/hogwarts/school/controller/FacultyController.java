@@ -35,7 +35,7 @@ public class FacultyController {
     public Faculty delete(@PathVariable long id) {
         return facultyService.delete(id);
     }
-    @GetMapping("/color/{color}")
+    @GetMapping("/{color}")
     public List<Faculty> readStudentByAge(@PathVariable String color) {
         return facultyService.readAllFacultiesByColor(color);
     }

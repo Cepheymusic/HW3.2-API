@@ -1,7 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
-import ru.hogwarts.school.exceptions.StudentException;
+import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student create(Student student) {
         if(students.containsValue(student)){
-            throw new StudentException("Студент существует");
+            throw new StudentNotFoundException("Студент существует");
         }
         student.setId(++counter);
         students.put(student.getId(), student);
@@ -28,7 +28,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student read(long id) {
         if(!students.containsKey(id)){
-            throw new StudentException("Студент не найден");
+            throw new StudentNotFoundException("Студент не найден");
         }
         return students.get(id);
     }
@@ -36,7 +36,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student update(Student student) {
         if (!students.containsKey(student.getId())) {
-            throw new StudentException("Студент не найден");
+            throw new StudentNotFoundException("Студент не найден");
         }
         return students.put(student.getId(), student);
     }
@@ -44,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student delete(long id) {
         if (!students.containsKey(id)) {
-            throw new StudentException("Студент не найден");
+            throw new StudentNotFoundException("Студент не найден");
         }
         return students.remove(id);
     }
