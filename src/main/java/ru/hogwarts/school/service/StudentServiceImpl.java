@@ -44,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student delete(long id) {
         if (!students.containsKey(id)) {
-            throw new StudentException("Студен не найден");
+            throw new StudentException("Студент не найден");
         }
         return students.remove(id);
     }
