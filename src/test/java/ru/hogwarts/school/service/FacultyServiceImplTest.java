@@ -17,11 +17,10 @@ class FacultyServiceImplTest {
     Faculty faculty2 = new Faculty(0L, "Slyseryne", "green");
     Faculty faculty3 = new Faculty(0L, "Puffendui", "gray");
     Faculty faculty4 = new Faculty(0L, "Cogtevran", "yellow");
-    List<Faculty> faculties;
 
     @BeforeEach
     void beforeEach() {
-        faculties = new ArrayList<>(List.of(faculty1, faculty2, faculty3, faculty4));
+        underTest = new FacultyServiceImpl();
     }
     @Test
     void create__facultyCreateAndReturn() {

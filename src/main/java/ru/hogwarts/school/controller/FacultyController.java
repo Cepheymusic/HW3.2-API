@@ -21,7 +21,7 @@ public class FacultyController {
         return facultyService.create(faculty);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public Faculty read(@PathVariable long id) {
         return facultyService.read(id);
     }
@@ -31,12 +31,12 @@ public class FacultyController {
         return facultyService.update(faculty);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public Faculty delete(@PathVariable long id) {
         return facultyService.delete(id);
     }
-    @GetMapping("/{color}")
-    public List<Faculty> readStudentByAge(@PathVariable String color) {
+    @GetMapping
+    public List<Faculty> readStudentByAge(@RequestParam String color) {
         return facultyService.readAllFacultiesByColor(color);
     }
 }

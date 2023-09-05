@@ -16,9 +16,6 @@ public class FacultyServiceImpl implements FacultyService {
     private long counter;
     @Override
     public Faculty create(Faculty faculty) {
-        if (faculties.containsValue(faculty)) {
-            throw new FacultyNotFoundException("Факультет существует");
-        }
         faculty.setId(++counter);
         faculties.put(faculty.getId(), faculty);
         return faculty;

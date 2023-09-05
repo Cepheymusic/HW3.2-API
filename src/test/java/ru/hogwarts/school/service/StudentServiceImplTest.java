@@ -11,16 +11,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentServiceImplTest {
-    StudentService underTest = new StudentServiceImpl();
+    StudentService underTest;
     Student student1 = new Student(0L, "Harry", 35);
     Student student2 = new Student(0L, "Harry", 35);
     Student student3 = new Student(0L, "Sam", 36);
 
-    List<Student> students;
     @BeforeEach
     void beforeEach() {
-    students = new ArrayList<>(List.of(student1, student2, student3));
+    underTest = new StudentServiceImpl();
     }
+
     @Test
     void create__studentCreateAndReturn() {
         Student result = underTest.create(student1);

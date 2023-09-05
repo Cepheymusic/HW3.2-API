@@ -34,8 +34,8 @@ public class StudentController {
         return studentService.delete(id);
     }
 
-    @GetMapping("/age/{age}")
-    public List<Student> readStudentByAge(@PathVariable int age) {
+    @GetMapping
+    public List<Student> readStudentByAge(@RequestParam int age) {
         return studentService.readAllStudentByAge(age);
     }
 }
