@@ -30,11 +30,11 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Faculty update(Faculty faculty) {
-        if (!faculties.containsKey(faculty.getId())) {
+    public Faculty update(long id, Faculty faculty) {
+        if (!faculties.containsKey(id)) {
             throw new FacultyNotFoundException("Факультет не найден");
         }
-        return faculties.put(faculty.getId(), faculty);
+        return faculties.put(id, faculty);
     }
 
     @Override

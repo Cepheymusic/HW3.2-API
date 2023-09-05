@@ -54,7 +54,7 @@ class StudentServiceImplTest {
     @Test
     void update_studentIsUpdate_updateAndReturnedStudent() {
         underTest.create(student1);
-        Student result = underTest.update(student1);
+        Student result = underTest.update(1, student1);
         assertEquals(student1, result);
     }
     @Test
@@ -62,7 +62,7 @@ class StudentServiceImplTest {
         underTest.create(student1);
         StudentNotFoundException ex =
                 assertThrows(StudentNotFoundException.class,
-                        () -> underTest.update(student3));
+                        () -> underTest.update(3, student3));
         assertEquals("Студент не найден", ex.getMessage());
     }
     @Test

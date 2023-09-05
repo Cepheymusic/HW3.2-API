@@ -31,11 +31,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student update(Student student) {
-        if (!students.containsKey(student.getId())) {
+    public Student update(long id, Student student) {
+        if (!students.containsKey(id)) {
             throw new StudentNotFoundException("Студент не найден");
         }
-        return students.put(student.getId(), student);
+        return students.put(id, student);
     }
 
     @Override

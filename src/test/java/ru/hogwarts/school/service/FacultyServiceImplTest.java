@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FacultyServiceImplTest {
-    FacultyService underTest = new FacultyServiceImpl();
+    FacultyService underTest;
 
     Faculty faculty1 = new Faculty(0L, "Gryffindor", "brown");
     Faculty faculty2 = new Faculty(0L, "Slyseryne", "green");
@@ -56,7 +56,7 @@ class FacultyServiceImplTest {
     @Test
     void update_facultyIsUpdate_updateAndReturnedStudent() {
         underTest.create(faculty1);
-        Faculty result = underTest.update(faculty1);
+        Faculty result = underTest.update(1, faculty1);
         assertEquals(faculty1, result);
     }
     @Test
@@ -64,7 +64,7 @@ class FacultyServiceImplTest {
         underTest.create(faculty1);
         FacultyNotFoundException ex =
                 assertThrows(FacultyNotFoundException.class,
-                        () -> underTest.update(faculty3));
+                        () -> underTest.update(3, faculty3));
         assertEquals("Факультет не найден", ex.getMessage());
     }
     @Test
