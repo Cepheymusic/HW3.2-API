@@ -2,8 +2,10 @@ package ru.hogwarts.school.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +17,11 @@ class StudentServiceImplTest {
     Student student1 = new Student(0L, "Harry", 35);
     Student student2 = new Student(0L, "Harry", 35);
     Student student3 = new Student(0L, "Sam", 36);
-
+    @Mock
+    private StudentRepository studentRepository;
     @BeforeEach
     void beforeEach() {
-    underTest = new StudentServiceImpl();
+    underTest = new StudentServiceImpl(studentRepository);
     }
 
     @Test

@@ -2,8 +2,10 @@ package ru.hogwarts.school.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,14 @@ class FacultyServiceImplTest {
     Faculty faculty2 = new Faculty(0L, "Slyseryne", "green");
     Faculty faculty3 = new Faculty(0L, "Puffendui", "gray");
     Faculty faculty4 = new Faculty(0L, "Cogtevran", "yellow");
+    @Mock
+    private FacultyRepository facultyRepository;
 
     @BeforeEach
     void beforeEach() {
-        underTest = new FacultyServiceImpl();
+        underTest = new FacultyServiceImpl(facultyRepository);
     }
+
     @Test
     void create__facultyCreateAndReturn() {
         Faculty result = underTest.create(faculty1);
@@ -45,6 +50,7 @@ class FacultyServiceImplTest {
         Faculty result = underTest.read(2L);
         assertEquals(faculty2, result);
     }
+
     @Test
     void read_facultyIsNotInMap_returnedFacultyException() {
         underTest.create(faculty1);
@@ -53,12 +59,14 @@ class FacultyServiceImplTest {
                         () -> underTest.read(2L));
         assertEquals("Факультет не найден", ex.getMessage());
     }
+
     @Test
     void update_facultyIsUpdate_updateAndReturnedStudent() {
         underTest.create(faculty1);
         Faculty result = underTest.update(1, faculty1);
         assertEquals(faculty1, result);
     }
+
     @Test
     void update_studentIsNotInMap_returnedStudentException() {
         underTest.create(faculty1);
@@ -67,12 +75,14 @@ class FacultyServiceImplTest {
                         () -> underTest.update(3, faculty3));
         assertEquals("Факультет не найден", ex.getMessage());
     }
+
     @Test
     void delete_facultyDelete_deleteAndReturnedFaculty() {
         underTest.create(faculty1);
         Faculty result = underTest.delete(1L);
         assertEquals(faculty1, result);
     }
+
     @Test
     void delete_facultyIsNotInMap_returnedFacultyException() {
         underTest.create(faculty1);
@@ -81,6 +91,7 @@ class FacultyServiceImplTest {
                         () -> underTest.delete(2L));
         assertEquals("Факультет не найден", ex.getMessage());
     }
+
     @Test
     void readAllFacultyByColor_facultyIsInMap_readAndReturnedFaculty() {
         underTest.create(faculty3);
