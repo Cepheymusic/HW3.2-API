@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class StudentServiceImplTest {
     @InjectMocks
-    StudentService underTest;
+    StudentServiceImpl underTest;
     Student student1 = new Student(0L, "Harry", 35);
     Student student2 = new Student(0L, "Harry", 35);
     Student student3 = new Student(0L, "Sam", 36);
