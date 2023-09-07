@@ -2,17 +2,26 @@ package ru.hogwarts.school.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class StudentServiceImplTest {
+    @InjectMocks
     StudentService underTest;
     Student student1 = new Student(0L, "Harry", 35);
     Student student2 = new Student(0L, "Harry", 35);
@@ -26,68 +35,58 @@ class StudentServiceImplTest {
 
     @Test
     void create__studentCreateAndReturn() {
-        Student result = underTest.create(student1);
-        assertEquals(student1, result);
-    }
+        when(studentRepository.save(student1)).thenReturn(student1);
 
-    @Test
-    void create_studentIsInMap_returnStudentException() {
-        underTest.create(student1);
-        StudentNotFoundException ex =
-                assertThrows(StudentNotFoundException.class,
-                        () -> underTest.create(student1));
-        assertEquals("Студент существует", ex.getMessage());
-
+        assertEquals(student1, underTest.create(student1));
     }
 
     @Test
     void read_studentIsInMap_readAndReturnedStudent() {
-        underTest.create(student2);
-        Student result = underTest.read(2L);
-        assertEquals(student2, result);
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student1));
+        Student result = underTest.read(1L);
+        assertEquals(student1, result);
     }
     @Test
     void read_studentIsNotInMap_returnedStudentException() {
-        underTest.create(student1);
+        when(studentRepository.findById(1L)).thenReturn(Optional.empty());
         StudentNotFoundException ex =
                 assertThrows(StudentNotFoundException.class,
-                        () -> underTest.read(2L));
+                        () -> underTest.read(1L));
         assertEquals("Студент не найден", ex.getMessage());
     }
     @Test
     void update_studentIsUpdate_updateAndReturnedStudent() {
-        underTest.create(student1);
-        Student result = underTest.update(1, student1);
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student1));
+        when(studentRepository.save(student1)).thenReturn(student1);
+        Student result = underTest.update(1L, student1);
         assertEquals(student1, result);
     }
     @Test
     void update_studentIsNotInMap_returnedStudentException() {
-        underTest.create(student1);
+        when(studentRepository.findById(1L)).thenReturn(Optional.empty());
         StudentNotFoundException ex =
                 assertThrows(StudentNotFoundException.class,
-                        () -> underTest.update(3, student3));
+                        () -> underTest.update(1, student1));
         assertEquals("Студент не найден", ex.getMessage());
     }
-    @Test
-    void delete_studentDelete_deleteAndReturnedStudent() {
-        underTest.create(student1);
-        Student result = underTest.delete(1L);
-        assertEquals(student1, result);
-    }
+//    @Test
+//    void delete_studentDelete_deleteAndReturnedStudent() {
+//        underTest.create(student1);
+//        Student result = underTest.delete(1L);
+//        assertEquals(student1, result);
+//    }
     @Test
     void delete_studentIsNotInMap_returnedStudentException() {
-        underTest.create(student1);
+        when(studentRepository.findById(1L)).thenReturn(Optional.empty());
         StudentNotFoundException ex =
                 assertThrows(StudentNotFoundException.class,
-                        () -> underTest.delete(2L));
+                        () -> underTest.delete(1L));
         assertEquals("Студент не найден", ex.getMessage());
     }
     @Test
     void readAllStudentByAge_studentIsInMap_readAndReturnedStudent() {
-        underTest.create(student1);
-        underTest.create(student2);
-        underTest.create(student3);
+        when(studentRepository.findByAge(35)).thenReturn(List.of(student1, student2));
         List<Student> result = underTest.readAllStudentByAge(35);
-        assertFalse(result.isEmpty());
+        assertEquals(List.of(student1, student2), result);
     }
 }

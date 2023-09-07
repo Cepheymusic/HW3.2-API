@@ -19,17 +19,17 @@ public class StudentController {
         return studentService.create(student);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Student read(@PathVariable long id) {
         return studentService.read(id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public Student update(@PathVariable long id,@RequestBody Student student) {
         return studentService.update(id,student);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public Student delete(@PathVariable long id) {
         return studentService.delete(id);
     }
