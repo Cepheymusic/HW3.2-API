@@ -5,7 +5,9 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/faculty")
@@ -36,7 +38,16 @@ public class FacultyController {
         return facultyService.delete(id);
     }
     @GetMapping
-    public List<Faculty> readFacultyByAge(@RequestParam String color) {
+    public List<Faculty> readFacultiesByColor(@RequestParam String color) {
         return facultyService.readAllFacultiesByColor(color);
+    }
+    @GetMapping("/student/{id}")
+    public List<Student> findByFacultyId(@PathVariable long id) {
+        return facultyService.findById(id);
+    }
+
+    @GetMapping("/search")
+    public Optional<Faculty> findByNameAndColor(@RequestParam String name, @RequestParam String color) {
+        return facultyService.findByNameAndColor(name, color);
     }
 }

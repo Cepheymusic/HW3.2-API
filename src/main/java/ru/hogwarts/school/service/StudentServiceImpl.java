@@ -2,21 +2,24 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.List;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
 
     private final StudentRepository studentRepository;
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    private final FacultyRepository facultyRepository;
+    public StudentServiceImpl(StudentRepository studentRepository, FacultyRepository facultyRepository) {
         this.studentRepository = studentRepository;
+        this.facultyRepository = facultyRepository;
     }
 
 
@@ -56,4 +59,12 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> readAllStudentByAge(int age) {
         return studentRepository.findByAge(age);
     }
-}
+    @Override
+    public Optional<Faculty> findById(long id) {
+        return facultyRepository.findByStudent_id(id);
+    }
+    @Override
+    public List<Student> findStudentByAgeBetween(int min, int max) {
+        return studentRepository.findByAgeBetween(min, max);
+    }
+    }
