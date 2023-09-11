@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -60,8 +61,12 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findByAge(age);
     }
     @Override
-    public Optional<Faculty> findById(long id) {
-        return facultyRepository.findByStudent_id(id);
+    public Faculty findById(long id) {
+        Faculty faculty = facultyRepository.findByStudent_id(id);
+        if(faculty == null){
+            throw new FacultyNotFoundException("Факультет не найден");
+        }
+        return faculty;
     }
     @Override
     public List<Student> findStudentByAgeBetween(int min, int max) {

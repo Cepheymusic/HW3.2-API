@@ -17,7 +17,7 @@ public interface StudentService {
 
     List<Student> readAllStudentByAge(int age);
 
-    Optional<Faculty> findById(long id);
+    Faculty findById(long id);
 
     List<Student> findStudentByAgeBetween(int min, int max);
 }

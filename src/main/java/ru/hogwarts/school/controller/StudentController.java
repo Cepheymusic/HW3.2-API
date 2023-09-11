@@ -41,7 +41,7 @@ public class StudentController {
         return studentService.readAllStudentByAge(age);
     }
     @GetMapping("/faculty/{id}")
-    public Optional<Faculty> findByStudent_id(@PathVariable long id) {
+    public Faculty findByStudent_id(@PathVariable long id) {
         return studentService.findById(id);
     }
 

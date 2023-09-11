@@ -5,7 +5,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +46,7 @@ public class FacultyController {
     }
 
     @GetMapping("/search")
-    public Optional<Faculty> findByNameAndColor(@RequestParam String name, @RequestParam String color) {
-        return facultyService.findByNameAndColor(name, color);
+    public Faculty findByNameAndColor(@RequestParam String name, @RequestParam String color) {
+        return facultyService.findByNameOrColor(name, color);
     }
 }

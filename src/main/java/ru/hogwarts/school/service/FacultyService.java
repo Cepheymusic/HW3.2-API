@@ -20,5 +20,5 @@ public interface FacultyService {
 
     List<Student> findById(long id);
 
-    Optional<Faculty> findByNameAndColor(String name, String color);
+    Faculty findByNameOrColor(String name, String color);
 }

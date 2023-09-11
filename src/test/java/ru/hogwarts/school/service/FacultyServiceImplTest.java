@@ -8,7 +8,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +29,15 @@ class FacultyServiceImplTest {
     Faculty faculty3 = new Faculty(0L, "Puffendui", "gray");
     Faculty faculty4 = new Faculty(0L, "Cogtevran", "yellow");
      List<Faculty> faculties = List.of(faculty1, faculty2, faculty3, faculty4);
+    List<Student> students = List.of(new Student(1L, "Harry", 13));
     @Mock
     private FacultyRepository facultyRepository;
+    @Mock
+    private StudentRepository studentRepository;
 
     @BeforeEach
     void beforeEach() {
-        underTest = new FacultyServiceImpl(facultyRepository);
+        underTest = new FacultyServiceImpl(facultyRepository, studentRepository);
     }
 
     @Test
@@ -97,6 +102,20 @@ class FacultyServiceImplTest {
         when(facultyRepository.findByColor("brown")).thenReturn(List.of(faculty1));
         List<Faculty> result = underTest.readAllFacultiesByColor("brown");
         assertEquals(List.of(faculty1), result);
+    }
+
+    @Test
+    void findStudentsByFacultyId_studentFind_FindAndReturnStudents() {
+        when(studentRepository.findByFaculty_id(1L)).thenReturn(students);
+        List<Student> result = underTest.findById(1L);
+        assertEquals(students, result);
+    }
+
+    @Test
+    void findByNameOrColor_findFaculty_findAndReturnFaculty() {
+        when(facultyRepository.findByNameOrColorIgnoreCase("Gryffindor", "brown")).thenReturn(faculty1);
+        Faculty result = underTest.findByNameOrColor("Gryffindor", "brown");
+        assertEquals(faculty1, result);
     }
 
 }

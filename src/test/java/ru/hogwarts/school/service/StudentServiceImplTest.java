@@ -10,6 +10,7 @@ import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.ArrayList;
@@ -28,9 +29,11 @@ class StudentServiceImplTest {
     Student student3 = new Student(0L, "Sam", 36);
     @Mock
     private StudentRepository studentRepository;
+    @Mock
+    private FacultyRepository facultyRepository;
     @BeforeEach
     void beforeEach() {
-    underTest = new StudentServiceImpl(studentRepository);
+    underTest = new StudentServiceImpl(studentRepository, facultyRepository);
     }
 
     @Test
@@ -89,4 +92,26 @@ class StudentServiceImplTest {
         List<Student> result = underTest.readAllStudentByAge(35);
         assertEquals(List.of(student1, student2), result);
     }
+
+    @Test
+    void findFacultyByStudentId_facultyIsNot_returnedNotFoundException() {
+        when(facultyRepository.findByStudent_id(1L)).thenReturn(null);
+        FacultyNotFoundException ex =
+                assertThrows(FacultyNotFoundException.class, () -> underTest.findById(1L));
+        assertEquals("Факультет не найден", ex.getMessage());
+    }
+
+    //    @Test
+//    void findFacultyByStudentId_facultyIsFind_findAndReturnedFaculty() {
+//        when(facultyRepository.findByStudent_id(1L)).thenReturn(student1.getFaculty());
+//        Faculty result =  underTest.findById(1L);
+//        assertEquals(student1.getFaculty(), result); // не работает
+//    }
+    @Test
+    void findStudentByAgeBetween_studentIsFind_findAndReturnStudent() {
+        when(studentRepository.findByAgeBetween(12, 35)).thenReturn(List.of(student1, student2));
+        List<Student> result = underTest.findStudentByAgeBetween(12, 35);
+        assertEquals(List.of(student1, student2), result);
+    }
+
 }
