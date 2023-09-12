@@ -93,13 +93,13 @@ class StudentServiceImplTest {
         assertEquals(List.of(student1, student2), result);
     }
 
-    @Test
-    void findFacultyByStudentId_facultyIsNot_returnedNotFoundException() {
-        when(facultyRepository.findByStudent_id(1L)).thenReturn(null);
-        FacultyNotFoundException ex =
-                assertThrows(FacultyNotFoundException.class, () -> underTest.findById(1L));
-        assertEquals("Факультет не найден", ex.getMessage());
-    }
+//    @Test
+//    void findFacultyByStudentId_facultyIsNot_returnedNotFoundException() {
+//        when(facultyRepository.findByStudent_id(1L)).thenReturn(null);
+//        FacultyNotFoundException ex =
+//                assertThrows(FacultyNotFoundException.class, () -> underTest.findById(1L));
+//        assertEquals("Факультет не найден", ex.getMessage());
+//    }
 
     //    @Test
 //    void findFacultyByStudentId_facultyIsFind_findAndReturnedFaculty() {

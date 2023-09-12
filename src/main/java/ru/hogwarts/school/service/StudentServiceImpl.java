@@ -62,11 +62,11 @@ public class StudentServiceImpl implements StudentService {
     }
     @Override
     public Faculty findById(long id) {
-        Faculty faculty = facultyRepository.findByStudent_id(id);
-        if(faculty == null){
-            throw new FacultyNotFoundException("Факультет не найден");
+        Optional<Student> student = studentRepository.findById(id);
+        if(student.isEmpty()){
+            throw new StudentNotFoundException("Студент не найден");
         }
-        return faculty;
+        return student.get().getFaculty();
     }
     @Override
     public List<Student> findStudentByAgeBetween(int min, int max) {
