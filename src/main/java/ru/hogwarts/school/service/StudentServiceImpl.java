@@ -61,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findByAge(age);
     }
     @Override
-    public Faculty findById(long id) {
+    public Faculty findFacultyByStudentId(long id) {
         Optional<Student> student = studentRepository.findById(id);
         if(student.isEmpty()){
             throw new StudentNotFoundException("Студент не найден");

@@ -6,7 +6,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -36,13 +35,13 @@ public class StudentController {
         return studentService.delete(id);
     }
 
-    @GetMapping
-    public List<Student> readStudentByAge(@RequestParam int age) {
+    @GetMapping("/by-age/{age}")
+    public List<Student> readStudentByAge(@PathVariable int age) {
         return studentService.readAllStudentByAge(age);
     }
     @GetMapping("/faculty/{id}")
     public Faculty findByStudent_id(@PathVariable long id) {
-        return studentService.findById(id);
+        return studentService.findFacultyByStudentId(id);
     }
 
     @GetMapping("/search")

@@ -80,14 +80,6 @@ class FacultyServiceImplTest {
         assertEquals("Факультет не найден", ex.getMessage());
     }
 
-//    @Test
-//    void delete_facultyDelete_deleteAndReturnedFaculty() {
-//        when(facultyRepository.findById(1L)).thenReturn(Optional.of(faculty1));
-//        when(facultyRepository.deleteById(faculty1).thenReturn(faculty1));
-//        Faculty result = underTest.delete(1L);
-//        assertEquals(faculty1, result);
-//    }
-
     @Test
     void delete_facultyIsNotInMap_returnedFacultyException() {
         when(facultyRepository.findById(1L)).thenReturn(Optional.empty());
