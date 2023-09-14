@@ -63,16 +63,15 @@ public class FacultyControllerTest {
                 .andExpect(jsonPath("$.name").value(faculty.getName()))
                 .andExpect(jsonPath("$.color").value(faculty.getColor()));
     }
-//    @Test
-//    void delete__status200AndDeleteToDb() throws Exception{
-//        when(facultyRepository.findById(1L)).thenReturn(Optional.empty());
-//        mockMvc.perform(delete("/faculty")
-//                        .content(objectMapper.writeValueAsString(faculty))
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect((content().json(objectMapper.writeValueAsString(faculty))));
-//    }
+    @Test
+    void delete__status200AndDeleteToDb() throws Exception{
+        when(facultyRepository.findById(1L)).thenReturn(Optional.of(faculty));
+        mockMvc.perform(delete("/faculty/" + faculty.getId())
+                        .content(objectMapper.writeValueAsString(faculty))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(faculty.getId()));
+    }
     @Test
     void readFacultyByColor__status200AndReturnList() throws Exception{
         when(facultyRepository.findByColor(faculty.getColor())).thenReturn(List.of(faculty));
@@ -82,13 +81,13 @@ public class FacultyControllerTest {
                 .andExpect(jsonPath("$[0].name").value(faculty.getName()))
                 .andExpect(jsonPath("$[0].color").value(faculty.getColor()));
     }
-//    @Test
-//    void readStudentsByFacultyId__status200AndReturnList() throws Exception{
-//        when(facultyRepository.findById(faculty.getId())).thenReturn(Optional.empty());
-//
-//        mockMvc.perform(get("/faculty/color/" + faculty.getColor()))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$[0].name").value(faculty.getName()))
-//                .andExpect(jsonPath("$[0].color").value(faculty.getColor()));
-//    }
+    @Test
+    void readStudentsByFacultyId__status200AndReturnList() throws Exception{
+        when(facultyRepository.findByColor(faculty.getColor())).thenReturn(List.of(faculty));
+
+        mockMvc.perform(get("/faculty/color/" + faculty.getColor()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value(faculty.getName()))
+                .andExpect(jsonPath("$[0].color").value(faculty.getColor()));
+    }
 }
