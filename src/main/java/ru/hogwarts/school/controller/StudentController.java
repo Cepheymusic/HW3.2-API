@@ -48,4 +48,19 @@ public class StudentController {
     public List<Student> findStudentByAgeBetween(@RequestParam int min, @RequestParam int max) {
         return studentService.findStudentByAgeBetween(min, max);
     }
+
+    @GetMapping("/count-all-students")
+    public Integer findQuantityStudents() {
+        return studentService.findQuantityStudents();
+    }
+
+    @GetMapping("/avg-age")
+    public Integer findAvgAgeStudents() {
+        return studentService.findAvgAgeStudents();
+    }
+
+    @GetMapping("/last-five-students")
+    public List<Student> findLastStudents() {
+        return studentService.findLastStudents(5);
+    }
 }

@@ -18,6 +18,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -63,6 +64,7 @@ public class StudentControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, studentResponseEntity.getStatusCode());
         assertEquals("Студент не найден", studentResponseEntity.getBody());
     }
+
     @Test
     void update__returnStatus200AndStudent() {
         studentRepository.save(student);
@@ -75,6 +77,7 @@ public class StudentControllerTest {
         assertEquals(student.getName(), studentResponseEntity.getBody().getName());
         assertEquals(student.getAge(), studentResponseEntity.getBody().getAge());
     }
+
     @Test
     void delete__returnStatus200AndStudent() {
         studentRepository.save(student);
@@ -113,15 +116,49 @@ public class StudentControllerTest {
         assertEquals(HttpStatus.OK, exchange.getStatusCode());
         assertEquals(student.getFaculty(), exchange.getBody());
     }
+
     @Test
     void readAllByAgeBetween__returnStatus200AndStudentList() {
         studentRepository.save(student);
         ResponseEntity<List<Student>> exchange = restTemplate.exchange(
-                "http://localhost:" + port + "/student/search?min=1&max=15", HttpMethod.GET, null,
+                "http://localhost:" + port + "/student/search?min=1&max=15",
+                HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Student>>() {
                 });
         assertEquals(HttpStatus.OK, exchange.getStatusCode());
         assertEquals(List.of(student), exchange.getBody());
 
     }
+
+    //    @Test
+//    void findQualityStudents__returnStatus200AndQualityStudents() {
+//        studentRepository.save(student);
+//        ResponseEntity<Student> exchange = restTemplate.getForEntity(
+//                "http://localhost:" + port + "/count-all-students/",
+//                Student.class);
+//        assertEquals(HttpStatus.OK, exchange.getStatusCode());
+//        assertEquals(Integer, exchange.getBody());
+//    }
+//    @Test
+//    void findAvgAgeStudents__returnStatus200AndAvgAgeStudents() {
+//        studentRepository.save(student);
+//        ResponseEntity<Student> exchange = restTemplate.getForEntity(
+//                "http://localhost:" + port + "/count-all-students/",
+//                Student.class);
+//        assertEquals(HttpStatus.OK, exchange.getStatusCode());
+//        assertEquals(Integer, exchange.getBody());
+//    }
+//    @Test
+//    void findFiveLastStudent__returnStatus200AndStudentList() {
+//        studentRepository.save(student);
+//        ResponseEntity<List<Student>> exchange = restTemplate.exchange(
+//                "http://localhost:" + port + "/last-five-students/",
+//                HttpMethod.GET,
+//                null,
+//                new ParameterizedTypeReference<List<Student>>() {
+//                });
+//        assertEquals(HttpStatus.OK, exchange.getStatusCode());
+//        assertEquals(List.of(student), exchange.getBody());
+//    }
+
 }
