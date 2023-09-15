@@ -112,5 +112,29 @@ class StudentServiceImplTest {
         List<Student> result = underTest.findStudentByAgeBetween(12, 35);
         assertEquals(List.of(student1, student2), result);
     }
+    @Test
+    void findQuantityStudents() {
+        studentRepository.save(student1);
+        studentRepository.save(student2);
+        when(studentRepository.findQuantityStudents()).thenReturn(2);
+        Integer result = underTest.findQuantityStudents();
+        assertEquals(2, result);
+    }
+    @Test
+    void findAvgAgeStudents() {
+        studentRepository.save(student1);
+        studentRepository.save(student2);
+        when(studentRepository.findAvgAgeStudents()).thenReturn(35);
+        Integer result = underTest.findAvgAgeStudents();
+        assertEquals(35, result);
+    }
+    @Test
+    void findLastStudents() {
+        studentRepository.save(student1);
+        studentRepository.save(student2);
+        when(studentRepository.findLastStudents(5)).thenReturn(List.of(student1, student2));
+        List<Student> result = underTest.findLastStudents(5);
+        assertEquals(List.of(student1, student2), result);
+    }
 
 }
