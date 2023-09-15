@@ -4,7 +4,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentService {
     Student create(Student student);
@@ -17,7 +16,7 @@ public interface StudentService {
 
     List<Student> readAllStudentByAge(int age);
 
-    Faculty findById(long id);
+    Faculty findFacultyByStudentId(long id);
 
     List<Student> findStudentByAgeBetween(int min, int max);
 }
