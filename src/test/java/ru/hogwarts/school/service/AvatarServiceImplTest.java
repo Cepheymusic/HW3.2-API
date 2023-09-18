@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.exceptions.AvatarNotFoundException;
@@ -14,6 +16,7 @@ import ru.hogwarts.school.repository.AvatarRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,7 +61,15 @@ class AvatarServiceImplTest {
         when(avatarRepository.findById(1L)).thenReturn(Optional.of(avatar));
         Avatar result = underTest.readFromDb(1L);
         assertEquals(avatar, result);
+    }
 
+    @Test
+    void getPage__returnListOfAvatars() {
+        Avatar avatar = new Avatar();
+        when(avatarRepository.findAll((PageRequest)any()))
+                .thenReturn(new PageImpl<>(List.of(avatar)));
+        List<Avatar> result = underTest.getPage(0, 1);
+        assertEquals(List.of(avatar), result);
     }
 
 }

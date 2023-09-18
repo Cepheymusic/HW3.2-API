@@ -19,4 +19,10 @@ public interface StudentService {
     Faculty findFacultyByStudentId(long id);
 
     List<Student> findStudentByAgeBetween(int min, int max);
+
+    Integer findQuantityStudents();
+
+    Integer findAvgAgeStudents();
+
+    List<Student> findLastStudents(int limit);
 }
