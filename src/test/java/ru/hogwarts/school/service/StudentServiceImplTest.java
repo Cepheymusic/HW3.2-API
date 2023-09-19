@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,9 @@ class StudentServiceImplTest {
     StudentServiceImpl underTest;
     static Student student1 = new Student(0L, "Harry", 35);
     static Student student2 = new Student(0L, "Harry", 35);
-    static Student student3 = new Student(0L, "Sam", 36);
+    static Student student3 = new Student(0L, "ACAM", 20);
+    static Student student4 = new Student(0L, "ASAM", 10);
+    static Student student5 = new Student(0L, "APVAM", 15);
     private static final Faculty faculty = new Faculty(1L, "PRPR", "green");
     @Mock
     private StudentRepository studentRepository;
@@ -135,6 +138,26 @@ class StudentServiceImplTest {
         when(studentRepository.findLastStudents(5)).thenReturn(List.of(student1, student2));
         List<Student> result = underTest.findLastStudents(5);
         assertEquals(List.of(student1, student2), result);
+    }
+
+    @Test
+    void findStudentNameWithA() {
+        studentRepository.save(student3);
+        studentRepository.save(student4);
+        studentRepository.save(student5);
+        when(studentRepository.findAll()).thenReturn(List.of(student3, student4, student5));
+        List<String> result = underTest.findStudentNameWithA();
+        assertEquals(List.of("ACAM", "APVAM", "ASAM"), result);
+    }
+    @Test
+    void findAverageAgeStudentsWithStream() {
+        studentRepository.save(student3);
+        studentRepository.save(student4);
+        studentRepository.save(student5);
+        when(studentRepository.findAll()).thenReturn(List.of(student3, student4, student5));
+        Double result = underTest.findAverageAgeStudentsWithStream();
+        assertEquals(15, result);
+
     }
 
 }

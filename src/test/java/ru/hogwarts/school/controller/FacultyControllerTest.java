@@ -83,11 +83,29 @@ public class FacultyControllerTest {
     }
     @Test
     void readStudentsByFacultyId__status200AndReturnList() throws Exception{
-        when(facultyRepository.findByColor(faculty.getColor())).thenReturn(List.of(faculty));
+        when(facultyRepository.findById(1L)).thenReturn(Optional.of(faculty));
 
-        mockMvc.perform(get("/faculty/color/" + faculty.getColor()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value(faculty.getName()))
-                .andExpect(jsonPath("$[0].color").value(faculty.getColor()));
+        mockMvc.perform(get("/faculty/student/" + faculty.getId()))
+                .andExpect(status().isOk());
     }
+//    @Test
+//    void findByNameAndColor__status200AndNameAndColor() throws Exception{
+//        when(facultyRepository.fin(1L)).thenReturn(Optional.of(faculty));
+//        mockMvc.perform(delete("/faculty/search/" + faculty.getId())
+//                        .content(objectMapper.writeValueAsString(faculty))
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$.name").value(faculty.getId()))
+//                .andExpect(jsonPath("$.color").value(faculty.getId()));
+//    }
+//    @Test
+//    void findByNameAndColor__status200AndNameAndColor() throws Exception{
+//        when(facultyRepository.fin(1L)).thenReturn("");
+//        mockMvc.perform(delete("/faculty/longest-name-faculty/" + faculty.getId())
+//                        .content(objectMapper.writeValueAsString(faculty))
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$.name").value(faculty.getId()))
+//                .andExpect(jsonPath("$.color").value(faculty.getId()));
+//    }
 }

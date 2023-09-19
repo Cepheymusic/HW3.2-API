@@ -109,4 +109,13 @@ class FacultyServiceImplTest {
         assertEquals(faculty1, result);
     }
 
+    @Test
+    void findLongestNameFaculty() {
+        facultyRepository.save(faculty1);
+        facultyRepository.save(faculty2);
+        when(facultyRepository.findAll()).thenReturn(List.of(faculty1, faculty2));
+        String result = underTest.findLongestNameFaculty();
+        assertEquals(faculty1.getName(), result);
+    }
+
 }
