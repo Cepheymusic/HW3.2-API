@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.model.Faculty;
@@ -15,6 +17,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     private final FacultyRepository facultyRepository;
     private final StudentRepository studentRepository;
+    private final Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
 
     public FacultyServiceImpl(FacultyRepository facultyRepository, StudentRepository studentRepository) {
         this.facultyRepository = facultyRepository;
@@ -23,48 +26,68 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty create(Faculty faculty) {
-
-        return facultyRepository.save(faculty);
+        logger.info("Был вызван метод create с данными" + faculty);
+        Faculty createFaculty = facultyRepository.save(faculty);
+        logger.info("Из метода create вернули" + faculty);
+        return createFaculty;
     }
 
     @Override
     public Faculty read(long id) {
+        logger.info("Был вызван метод read с данными" + id);
         Optional<Faculty> faculty = facultyRepository.findById(id);
         if (faculty.isEmpty()) {
             throw new FacultyNotFoundException("Факультет не найден");
         }
-        return faculty.get();
+        Faculty readfaculty = faculty.get();
+        logger.info("Из метода read вернули" + readfaculty);
+        return readfaculty;
     }
 
     @Override
     public Faculty update(long id, Faculty faculty) {
+        logger.info("Был вызван метод update с данными: {}, {}", id, faculty);
         if (facultyRepository.findById(id).isEmpty()) {
             throw new FacultyNotFoundException("Факультет не найден");
         }
-        return facultyRepository.save(faculty);
+        Faculty updateFaculty = facultyRepository.save(faculty);
+        logger.info("Из метода update вернули" + faculty);
+        return updateFaculty;
     }
 
     @Override
     public Faculty delete(long id) {
+        logger.info("Был вызван метод delete с данными" + id);
         Optional<Faculty> faculty = facultyRepository.findById(id);
         if (faculty.isEmpty()) {
             throw new FacultyNotFoundException("Факультет не найден");
         }
         facultyRepository.deleteById(id);
-        return faculty.get();
+        Faculty deleteFaculty = faculty.get();
+        logger.info("Из метода delete вернули" + deleteFaculty);
+        return deleteFaculty;
     }
 
     @Override
     public List<Faculty> readAllFacultiesByColor(String color) {
-        return facultyRepository.findByColor(color);
+        logger.info("Был вызван метод readAllFacultiesByColor с данными" + color);
+        List<Faculty> readAllByColor = facultyRepository.findByColor(color);
+        logger.info("Из метода readAllFacultiesByColor вернули" + readAllByColor);
+        return readAllByColor;
     }
 
     @Override
-    public List<Student> findById(long id) {
-        return studentRepository.findByFaculty_id(id);
+    public List<Student> findStudentsByFacultyId(long id) {
+        logger.info("Был вызван метод findStudentsByFacultyId с данными" + id);
+        List<Student> findStudent = studentRepository.findByFaculty_id(id);
+        logger.info("Из метода findStudentsByFacultyId вернули" + findStudent);
+        return findStudent;
     }
     @Override
-    public Faculty findByNameOrColor(String name, String color) {
-        return facultyRepository.findByNameOrColorIgnoreCase(name, color);
+    public Faculty findFacultyByNameOrColor(String name, String color) {
+        logger.info("Был вызван метод findStudentsByFacultyId с данными: {}, {}", name, color);
+        Faculty findFaculty = facultyRepository.findByNameOrColorIgnoreCase(name, color);
+        logger.info("Из метода findFacultyByNameOrColor вернули" + findFaculty);
+        return findFaculty;
     }
 }

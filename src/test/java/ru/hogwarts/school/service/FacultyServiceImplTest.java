@@ -12,7 +12,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,14 +98,14 @@ class FacultyServiceImplTest {
     @Test
     void findStudentsByFacultyId_studentFind_FindAndReturnStudents() {
         when(studentRepository.findByFaculty_id(1L)).thenReturn(students);
-        List<Student> result = underTest.findById(1L);
+        List<Student> result = underTest.findStudentsByFacultyId(1L);
         assertEquals(students, result);
     }
 
     @Test
     void findByNameOrColor_findFaculty_findAndReturnFaculty() {
         when(facultyRepository.findByNameOrColorIgnoreCase("Gryffindor", "brown")).thenReturn(faculty1);
-        Faculty result = underTest.findByNameOrColor("Gryffindor", "brown");
+        Faculty result = underTest.findFacultyByNameOrColor("Gryffindor", "brown");
         assertEquals(faculty1, result);
     }
 

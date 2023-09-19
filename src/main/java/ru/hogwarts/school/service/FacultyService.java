@@ -4,7 +4,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FacultyService {
 
@@ -18,7 +17,7 @@ public interface FacultyService {
 
     List<Faculty> readAllFacultiesByColor(String color);
 
-    List<Student> findById(long id);
+    List<Student> findStudentsByFacultyId(long id);
 
-    Faculty findByNameOrColor(String name, String color);
+    Faculty findFacultyByNameOrColor(String name, String color);
 }
