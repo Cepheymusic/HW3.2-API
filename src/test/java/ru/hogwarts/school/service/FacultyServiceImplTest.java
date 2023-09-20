@@ -42,7 +42,6 @@ class FacultyServiceImplTest {
     @Test
     void create__facultyCreateAndReturn() {
         when(facultyRepository.save(faculty1)).thenReturn(faculty1);
-
         assertEquals(faculty1, underTest.create(faculty1));
     }
 
@@ -111,8 +110,6 @@ class FacultyServiceImplTest {
 
     @Test
     void findLongestNameFaculty() {
-        facultyRepository.save(faculty1);
-        facultyRepository.save(faculty2);
         when(facultyRepository.findAll()).thenReturn(List.of(faculty1, faculty2));
         String result = underTest.findLongestNameFaculty();
         assertEquals(faculty1.getName(), result);

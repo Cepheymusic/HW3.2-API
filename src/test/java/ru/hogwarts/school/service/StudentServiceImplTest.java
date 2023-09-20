@@ -117,24 +117,18 @@ class StudentServiceImplTest {
     }
     @Test
     void findQuantityStudents() {
-        studentRepository.save(student1);
-        studentRepository.save(student2);
         when(studentRepository.findQuantityStudents()).thenReturn(2);
         Integer result = underTest.findQuantityStudents();
         assertEquals(2, result);
     }
     @Test
     void findAvgAgeStudents() {
-        studentRepository.save(student1);
-        studentRepository.save(student2);
         when(studentRepository.findAvgAgeStudents()).thenReturn(35);
         Integer result = underTest.findAvgAgeStudents();
         assertEquals(35, result);
     }
     @Test
     void findLastStudents() {
-        studentRepository.save(student1);
-        studentRepository.save(student2);
         when(studentRepository.findLastStudents(5)).thenReturn(List.of(student1, student2));
         List<Student> result = underTest.findLastStudents(5);
         assertEquals(List.of(student1, student2), result);
@@ -142,18 +136,12 @@ class StudentServiceImplTest {
 
     @Test
     void findStudentNameWithA() {
-        studentRepository.save(student3);
-        studentRepository.save(student4);
-        studentRepository.save(student5);
         when(studentRepository.findAll()).thenReturn(List.of(student3, student4, student5));
         List<String> result = underTest.findStudentNameWithA();
         assertEquals(List.of("ACAM", "APVAM", "ASAM"), result);
     }
     @Test
     void findAverageAgeStudentsWithStream() {
-        studentRepository.save(student3);
-        studentRepository.save(student4);
-        studentRepository.save(student5);
         when(studentRepository.findAll()).thenReturn(List.of(student3, student4, student5));
         Double result = underTest.findAverageAgeStudentsWithStream();
         assertEquals(15, result);

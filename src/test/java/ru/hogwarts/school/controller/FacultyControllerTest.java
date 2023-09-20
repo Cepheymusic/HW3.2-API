@@ -39,7 +39,8 @@ public class FacultyControllerTest {
     StudentRepository studentRepository;
     @Autowired
     ObjectMapper objectMapper;
-    Faculty faculty = new Faculty(1L, "Grif", "red");
+    Faculty faculty = new Faculty(1L, "Griff", "red");
+    Faculty faculty1 = new Faculty(1L, "Puff", "blue");
 
     @Test
     void create__status200AndSavedToDb() throws Exception{
@@ -75,7 +76,6 @@ public class FacultyControllerTest {
     @Test
     void readFacultyByColor__status200AndReturnList() throws Exception{
         when(facultyRepository.findByColor(faculty.getColor())).thenReturn(List.of(faculty));
-
         mockMvc.perform(get("/faculty/color/" + faculty.getColor()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value(faculty.getName()))
@@ -84,28 +84,26 @@ public class FacultyControllerTest {
     @Test
     void readStudentsByFacultyId__status200AndReturnList() throws Exception{
         when(facultyRepository.findById(1L)).thenReturn(Optional.of(faculty));
-
         mockMvc.perform(get("/faculty/student/" + faculty.getId()))
                 .andExpect(status().isOk());
     }
-//    @Test
-//    void findByNameAndColor__status200AndNameAndColor() throws Exception{
-//        when(facultyRepository.fin(1L)).thenReturn(Optional.of(faculty));
-//        mockMvc.perform(delete("/faculty/search/" + faculty.getId())
-//                        .content(objectMapper.writeValueAsString(faculty))
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$.name").value(faculty.getId()))
-//                .andExpect(jsonPath("$.color").value(faculty.getId()));
-//    }
-//    @Test
-//    void findByNameAndColor__status200AndNameAndColor() throws Exception{
-//        when(facultyRepository.fin(1L)).thenReturn("");
-//        mockMvc.perform(delete("/faculty/longest-name-faculty/" + faculty.getId())
-//                        .content(objectMapper.writeValueAsString(faculty))
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$.name").value(faculty.getId()))
-//                .andExpect(jsonPath("$.color").value(faculty.getId()));
-//    }
+    @Test
+    void findByNameAndColor__status200AndNameAndColor() throws Exception{
+        when(facultyRepository.findAll()).thenReturn(List.of(faculty));
+        mockMvc.perform(get("/faculty/search/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+//                .andExpect(jsonPath("$").value(faculty.getName()))
+//                .andExpect(jsonPath("$").value(faculty.getColor()));
+    }
+    @Test
+    void findLongestNameFaculty__status200AndLongestNameFaculty() throws Exception{
+        when(facultyRepository.findAll()).thenReturn(List.of(faculty, faculty1));
+        mockMvc.perform(get("/faculty/longest-name-faculty/")
+                        .content(objectMapper.writeValueAsString(faculty))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(faculty.getName()));
+    }
 }
