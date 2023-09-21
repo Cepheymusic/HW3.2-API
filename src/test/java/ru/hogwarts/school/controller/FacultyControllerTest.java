@@ -89,13 +89,15 @@ public class FacultyControllerTest {
     }
     @Test
     void findByNameAndColor__status200AndNameAndColor() throws Exception{
-        when(facultyRepository.findAll()).thenReturn(List.of(faculty));
+        when(facultyRepository.findByNameOrColorIgnoreCase(faculty.getName(), faculty.getColor())).thenReturn(faculty);
         mockMvc.perform(get("/faculty/search/")
+                        .param("name", faculty.getName())
+                        .param("color", faculty.getColor())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$").value(faculty.getName()))
-//                .andExpect(jsonPath("$").value(faculty.getColor()));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(faculty.getName()))
+                .andExpect(jsonPath("$.color").value(faculty.getColor()));
     }
     @Test
     void findLongestNameFaculty__status200AndLongestNameFaculty() throws Exception{
