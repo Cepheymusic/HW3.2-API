@@ -42,7 +42,6 @@ class FacultyServiceImplTest {
     @Test
     void create__facultyCreateAndReturn() {
         when(facultyRepository.save(faculty1)).thenReturn(faculty1);
-
         assertEquals(faculty1, underTest.create(faculty1));
     }
 
@@ -107,6 +106,13 @@ class FacultyServiceImplTest {
         when(facultyRepository.findByNameOrColorIgnoreCase("Gryffindor", "brown")).thenReturn(faculty1);
         Faculty result = underTest.findFacultyByNameOrColor("Gryffindor", "brown");
         assertEquals(faculty1, result);
+    }
+
+    @Test
+    void findLongestNameFaculty() {
+        when(facultyRepository.findAll()).thenReturn(List.of(faculty1, faculty2));
+        String result = underTest.findLongestNameFaculty();
+        assertEquals(faculty1.getName(), result);
     }
 
 }

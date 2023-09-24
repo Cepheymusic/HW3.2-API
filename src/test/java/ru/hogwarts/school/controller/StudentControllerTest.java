@@ -43,6 +43,7 @@ public class StudentControllerTest {
 
     Student student = new Student(1L, "Harry", 10);
     Student student1 = new Student(2L, "Harrys", 10);
+    Student student2 = new Student(2L, "ARRYS", 10);
     Faculty faculty = new Faculty(1L, "Grif", "red");
 
 
@@ -163,4 +164,26 @@ public class StudentControllerTest {
         assertEquals(List.of(student), exchange.getBody());
     }
 
+    @Test
+    void findStudentNameWithA__returnStatus200AndListNameStudent() {
+        studentRepository.save(student2);
+
+        ResponseEntity<List<String>> exchange = restTemplate.exchange(
+                "http://localhost:" + port + "/student/name-start-with-a/",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<String>>() {
+                });
+        assertEquals(HttpStatus.OK, exchange.getStatusCode());
+        assertEquals(List.of("ARRYS"), exchange.getBody());
+    }
+    @Test
+    void findAverageAgeStudents__returnStatus200AndAverageAgeStudent() {
+        studentRepository.save(student2);
+        studentRepository.save(student1);
+        ResponseEntity<Double> exchange = restTemplate.getForEntity(
+                "http://localhost:" + port + "/student/average-age-students/", Double.class);
+        assertEquals(HttpStatus.OK, exchange.getStatusCode());
+        assertEquals(10, exchange.getBody());
+    }
 }

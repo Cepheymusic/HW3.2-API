@@ -9,6 +9,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,5 +90,13 @@ public class FacultyServiceImpl implements FacultyService {
         Faculty findFaculty = facultyRepository.findByNameOrColorIgnoreCase(name, color);
         logger.info("Из метода findFacultyByNameOrColor вернули" + findFaculty);
         return findFaculty;
+    }
+
+    @Override
+    public String findLongestNameFaculty() {
+        return facultyRepository.findAll().stream()
+                .map(name -> name.getName())
+                .max(Comparator.comparingInt(name -> name.length()))
+                .orElseThrow(() -> new FacultyNotFoundException("Нет факультетов в БД"));
     }
 }

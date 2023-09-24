@@ -1,7 +1,6 @@
 package ru.hogwarts.school.controller;
 
 import org.springframework.web.bind.annotation.*;
-import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
@@ -16,6 +15,7 @@ public class StudentController {
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
+
     @PostMapping
     public Student create(@RequestBody Student student) {
         return studentService.create(student);
@@ -27,8 +27,8 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public Student update(@PathVariable long id,@RequestBody Student student) {
-        return studentService.update(id,student);
+    public Student update(@PathVariable long id, @RequestBody Student student) {
+        return studentService.update(id, student);
     }
 
     @DeleteMapping("/{id}")
@@ -40,6 +40,7 @@ public class StudentController {
     public List<Student> readStudentByAge(@PathVariable int age) {
         return studentService.readAllStudentByAge(age);
     }
+
     @GetMapping("/faculty/{id}")
     public Faculty findByStudent_id(@PathVariable long id) {
         return studentService.findFacultyByStudentId(id);
@@ -64,4 +65,15 @@ public class StudentController {
     public List<Student> findLastStudents() {
         return studentService.findLastStudents(5);
     }
+
+    @GetMapping("/name-start-with-a")
+    public List<String> findStudentNameWithA() {
+        return studentService.findStudentNameWithA();
+    }
+
+    @GetMapping("/average-age-students")
+    public Double findAverageAgeStudents() {
+        return studentService.findAverageAgeStudentsWithStream();
+    }
 }
+
